@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{agama}
-  s.version = "0.5.0"
+  s.version = "0.5.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Aditya Rachakonda"]
@@ -24,7 +24,13 @@ Gem::Specification.new do |s|
     "README.rdoc",
     "Rakefile",
     "VERSION",
+    "agama.gemspec",
     "lib/agama.rb",
+    "lib/agama/adapters/tokyocabinet.rb",
+    "lib/agama/config.rb",
+    "lib/agama/graph.rb",
+    "lib/agama/keyify.rb",
+    "lib/agama/traverser.rb",
     "test/helper.rb",
     "test/test_agama.rb"
   ]
