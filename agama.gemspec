@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "agama.gemspec",
+    "examples/wiki_example.rb",
     "lib/agama.rb",
     "lib/agama/adapters/tokyocabinet.rb",
     "lib/agama/config.rb",
