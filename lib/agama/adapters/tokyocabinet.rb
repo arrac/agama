@@ -4,8 +4,15 @@ include TokyoCabinet
 module Agama
   module Adapters
     class TC
-
-
+   
+      def initialize(params)
+        @e_lmemb  = params[:lmemb]  || 128
+        @e_nmemb  = params[:nmemb]  || 256
+        @e_bnum   = params[:bnum]   || 32749
+        @e_apow   = params[:apow]   || 8
+        @e_fpow   = params[:fpow]   || 10
+        @e_opts   = params[:opts]   || 0
+      end
           
       def open (path)
         @meta = HDB::new        
@@ -23,6 +30,7 @@ module Agama
         end
         
         @edges = BDB::new       
+        @edges.tune(@e_lmemb, @e_nmemb, @e_bnum, @e_apow, @e_fpow, @e_opts)       
         # open the edges database
         if !@edges.open(path + "/edges.tcb", BDB::OWRITER | BDB::OCREAT)
           ecode = @edges.ecode
