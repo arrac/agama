@@ -5,7 +5,7 @@ module Agama
   module Adapters
     class TC
    
-      def initialize(params)
+      def initialize(params = {})
         @e_lmemb  = params[:lmemb]  || 128
         @e_nmemb  = params[:nmemb]  || 256
         @e_bnum   = params[:bnum]   || 32749
