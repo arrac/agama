@@ -3,7 +3,6 @@ require 'agama'
 require 'agama/adapters/tokyocabinet'
 require 'pp'
 
-
 graph = Agama::Graph.new( :path => "/tmp", 
                           :db   => Agama::Adapters::TC.new)
                           
