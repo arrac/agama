@@ -41,7 +41,7 @@ module Agama
 
       #Convert the node into Key and Value strings for storage
       key = Keyify.node(node)
-      value = Marshal.dump(self.clean_node(node)) #remove key items from value
+      value = Marshal.dump(Keyify.clean_node(node)) #remove key items from value
 
       #Check if the node type exists, and if so get its count
       count = Marshal.load(@db.m_get("node#{type}")) if @db.m_get("node#{type}")
@@ -115,7 +115,7 @@ module Agama
 
       #Convert the edge into Key, Reversed Key and Value strings for storage
       key, reverse_key = Keyify.edge(edge)
-      value = Marshal.dump(clean_edge(edge))
+      value = Marshal.dump(Keyify.clean_edge(edge))
 
       #Integrity check: Check if the incident nodes are defined
       unless (self.get_node(edge[:from]) and self.get_node(edge[:to]))
@@ -237,28 +237,6 @@ module Agama
       else
         Marshal.load(@db.m_get("m"))
       end
-    end
-
-    #Methods to seperate key from the value
-
-    def clean_node(node)
-      new_node = {}
-      node.each do |key, value|
-        next if (key == :type or key == :name)
-        new_node[key] = value
-      end
-
-      return new_node
-    end
-
-    def clean_edge(edge)
-      new_edge = {}
-      edge.each do |key, value|
-        next if (key == :type or key == :from or key == :to or key == :directed)
-        new_edge[key] = value
-      end
-
-      return new_edge
     end
 
   end

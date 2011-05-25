@@ -3,12 +3,11 @@
 Agama is a simple graph store for ruby. Storing large graphs on disk is cumbersome process and difficult to manage. Modelling them as tables on a relational database requires a constant schema translation as nodes and edges are not the first class entities. Agama tries to provide a simple and intuitive way to store large graphs onto disks. Agama uses a key-value store like Tokyo Cabinet to serialize graphs internally.
 
 To install: 
-
 gem install agama
 
 For more details on how to use Agama please refer to the wiki https://github.com/arrac/agama/wiki
 
-== Contributing to agama
+== Contributing to Agama
  
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it

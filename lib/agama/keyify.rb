@@ -57,6 +57,32 @@ module Agama
     def self.subkey?(subkey, key)
       key [0, subkey.length] == subkey
     end
+    
+    
+    #Methods to seperate key from the value
+
+    def self.clean_node(node)
+      new_node = {}
+      node.each do |key, value|
+        next if (key == :type or key == :name)
+        new_node[key] = value
+      end
+
+      return new_node
+    end
+
+    def self.clean_edge(edge)
+      new_edge = {}
+      edge.each do |key, value|
+        next if (key == :type or key == :from or key == :to or key == :directed)
+        new_edge[key] = value
+      end
+
+      return new_edge
+    end
+
+
+    
   end
 end
 
