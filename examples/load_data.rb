@@ -1,6 +1,6 @@
 require 'rubygems'
-require 'agama'
-require 'agama/adapters/tokyocabinet'
+require '../lib/agama'
+require '../lib/agama/adapters/tokyocabinet'
 require 'pp'
 
 g = Agama::Loader.new(:path => "/tmp", 
@@ -8,9 +8,9 @@ g = Agama::Loader.new(:path => "/tmp",
 
 g.open
                       
-g.load_nodes_file("/tmp/n") do |cols, hash|
-  hash[:name]   = cols[1]
-  hash[:weight] = cols[2]
+g.load_nodes("/tmp/n") do |cols, hash|
+  hash[:name]   = cols[0]
+  hash[:weight] = cols[1]
 end
 
 g.close
