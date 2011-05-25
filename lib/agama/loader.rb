@@ -33,21 +33,19 @@ module Agama
     def load_edges(file)
       File.open(file).each_line do |l|
         cols = l.chomp.split("\t")
-        edges = Hash.new
-        yield cols, edges
-        if edges.size > 0
-          type = node[:type] || Config::DEFAULT_TYPE
-          node[:type] = type
+        edge = Hash.new
+        yield cols, edge
+        if edge.size > 0 and edge[:from][:name] and edge[:to][:name]
+          type = edge[:type] || Config::DEFAULT_TYPE
+          edge[:type] = type
           
-          key = Keyify.node(node)
-          value = Marshal.dump(Keyify.clean_node(node)) #remove key items from value
+          key, rk = Keyify.edge(edge)
+          value   = JSON.generate(Keyify.clean_edge(edge)) #remove key items from value
 
-          @db.n_put(key, value)
+          @db.e_put(key, value)
         end
       end
     end
-
-
 
   end
 end
