@@ -1,9 +1,9 @@
-# Author::    Aditya Rachakonda  (mailto:aditya.rachakonda@gmail.com)
+# [Author] Aditya Rachakonda  (mailto:aditya.rachakonda@gmail.com)
 
 module Agama
 # The Agama::Graph class exposes a set of methods to store
-# graphs on disk. It's objects are initilised with an 
-# adapter designed to store graph on a disk
+# graphs on disk. It's objects are initialised with a database 
+# adapter designed to store graphs on a disk.
 
   class Graph
 
@@ -15,7 +15,6 @@ module Agama
     end
 
     #Opens the database for access
-
     def open
       @db.open(@db_path)
 
