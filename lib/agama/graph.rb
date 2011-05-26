@@ -1,4 +1,10 @@
+# Author::    Aditya Rachakonda  (mailto:aditya.rachakonda@gmail.com)
+
 module Agama
+# The Agama::Graph class exposes a set of methods to store
+# graphs on disk. It's objects are initilised with an 
+# adapter designed to store graph on a disk
+
   class Graph
 
     #Initialises variables and sets the path
@@ -15,12 +21,12 @@ module Agama
 
       #Create meta variables if they are absent
       unless @db.m_get("n")
-        @db.m_put("n", Marshal.dump(0))             #Total node count
-        @db.m_put("m", Marshal.dump(0))             #Total edge count
+        @db.m_put("n", "0")             #Total node count
+        @db.m_put("m", "0")             #Total edge count
         @db.m_put("node#{Config::DEFAULT_TYPE}", 
-                  Marshal.dump(0))                  #Node count for default type
+                  "0")                  #Node count for default type
         @db.m_put("edge#{Config::DEFAULT_TYPE}", 
-                  Marshal.dump({:directed => false, :count => 0})) #Edge count for default type
+                  JSON.generate({:directed => false, :count => 0})) #Edge count for default type
       end
 
     end
@@ -41,23 +47,23 @@ module Agama
 
       #Convert the node into Key and Value strings for storage
       key = Keyify.node(node)
-      value = Marshal.dump(Keyify.clean_node(node)) #remove key items from value
+      value = JSON.generate(Keyify.clean_node(node)) #remove key items from value
 
       #Check if the node type exists, and if so get its count
-      count = Marshal.load(@db.m_get("node#{type}")) if @db.m_get("node#{type}")
+      count = @db.m_get("node#{type}").to_i if @db.m_get("node#{type}")
 
       #Check whether the operation is an insert (not an update), if so increment count
       unless @db.n_get(key)
         #Increment type-specific count
         if count
           count += 1
-          @db.m_put("node#{type}", Marshal.dump(count))
+          @db.m_put("node#{type}", count.to_s)
         else
-          @db.m_put("node#{type}", Marshal.dump(1))
+          @db.m_put("node#{type}", "1")
         end
 
         #Increment global count
-        @db.m_put("n", Marshal.dump(Marshal.load(@db.m_get("n")) + 1))
+        @db.m_put("n", (@db.m_get("n").to_i + 1).to_s ) 
       end
 
       #Store the node
@@ -76,7 +82,7 @@ module Agama
       value = @db.n_get(key)
 
       if value
-        new_node        = Marshal.load(value)
+        new_node        = JSON.parse(value)
         new_node[:name] = node[:name]
         new_node[:type] = node[:type] || Config::DEFAULT_TYPE
         new_node
@@ -95,7 +101,7 @@ module Agama
       edge[:type] = type
 
       #Check if the edge type exists
-      etype = Marshal.load(@db.m_get("edge#{type}")) if @db.m_get("edge#{type}")
+      etype = JSON.parse(@db.m_get("edge#{type}")) if @db.m_get("edge#{type}")
 
       #Integrity check: Check whether the edge direction is not contradictory
       if edge[:directed]
@@ -115,7 +121,7 @@ module Agama
 
       #Convert the edge into Key, Reversed Key and Value strings for storage
       key, reverse_key = Keyify.edge(edge)
-      value = Marshal.dump(Keyify.clean_edge(edge))
+      value = JSON.generate(Keyify.clean_edge(edge))
 
       #Integrity check: Check if the incident nodes are defined
       unless (self.get_node(edge[:from]) and self.get_node(edge[:to]))
@@ -127,14 +133,14 @@ module Agama
       unless @db.e_get(key)
         if etype
           etype[:count] += 1
-          @db.m_put("edge#{type}", Marshal.dump(etype))
+          @db.m_put("edge#{type}", JSON.generate(etype))
         else
           @db.m_put("edge#{type}", 
-                    Marshal.dump({:directed => edge[:directed], :count => 1}))
+                    JSON.generate({:directed => edge[:directed], :count => 1}))
         end
 
         #Increment global count
-        @db.m_put("m", Marshal.dump(Marshal.load(@db.m_get("m")) + 1))
+        @db.m_put("m", (@db.m_get("m").to_i + 1).to_s)
       end
 
       #Add the edge and the reversed edge
@@ -154,7 +160,7 @@ module Agama
       edge[:type] = type
 
       #Check if the edge type exists
-      etype = Marshal.load(@db.m_get("edge#{type}")) if @db.m_get("edge#{type}")
+      etype = JSON.parse(@db.m_get("edge#{type}")) if @db.m_get("edge#{type}")
 
       #Integrity check: Check whether the edge direction is not contradictory
       if edge[:directed]
@@ -180,7 +186,7 @@ module Agama
       value = @db.e_get(key)
 
       if value
-        new_edge            = Marshal.load(value)
+        new_edge            = JSON.parse(value)
         new_edge[:from]     = self.get_node(edge[:from])
         new_edge[:to]       = self.get_node(edge[:to])
         new_edge[:type]     = edge[:type]
@@ -194,8 +200,6 @@ module Agama
       traverser.set(:from => node)
     end
 
-    #def filter(params)
-    #end
 
     #def delete_node(node)
       #return nil unless node[:name]
@@ -208,22 +212,15 @@ module Agama
 
     #end
 
-#    def put(store, key, value)
-#      unless store.put(key, value)
-#        STDERR.printf("put error: %s\n", store.errmsg(store.ecode))
-#      end
-#    end
-
     #Accessors for meta values
-
     def node_count(type = nil)
       if type
         value = @db.m_get("node#{type}")
         if value
-          Marshal.load(value)
+          value.to_i
         end
       else
-        Marshal.load(@db.m_get("n"))
+        @db.m_get("n").to_i
       end
     end
 
@@ -231,15 +228,14 @@ module Agama
       if type
         value = @db.m_get("edge#{type}")
         if value
-          etype = Marshal.load(value)
+          etype = JSON.parse(value)
           etype[:count]
         end
       else
-        Marshal.load(@db.m_get("m"))
+        @db.m_get("m").to_i
       end
     end
 
   end
 
 end
-
