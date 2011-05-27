@@ -6,8 +6,10 @@ module Agama
     class TC
    
       def initialize(params = {})
-        @etune  = params[:etune]  || nil
-        @ecache = params[:ecache] || nil
+        @e_tune  = params[:e_tune]  || nil
+        @e_cache = params[:e_cache] || nil
+        @n_tune  = params[:n_tune]  || nil
+        @n_cache = params[:n_cache] || nil
       end
           
       def open (path)
@@ -19,6 +21,10 @@ module Agama
         end
 
         @nodes = HDB::new        
+        
+        @nodes.tune(@n_tune[0], @n_tune[1], @n_tune[2], @n_tune[3]) if @n_tune      
+        @nodes.setcache(@n_cache[0]) if @n_cache
+
         # open the nodes database
         if !@nodes.open(path + "/nodes.tch", HDB::OWRITER | HDB::OCREAT)
           ecode = @nodes.ecode
@@ -27,8 +33,8 @@ module Agama
         
         @edges = BDB::new       
         
-        @edges.tune(@etune[0], @etune[1], @etune[2], @etune[3], @etune[4], @etune[5]) if @etune      
-        @edges.setcache(@ecache[0], @ecache[1]) if @ecache
+        @edges.tune(@e_tune[0], @e_tune[1], @e_tune[2], @e_tune[3], @e_tune[4], @e_tune[5]) if @e_tune      
+        @edges.setcache(@e_cache[0], @e_cache[1]) if @e_cache
         
         # open the edges database
         if !@edges.open(path + "/edges.tcb", BDB::OWRITER | BDB::OCREAT)
