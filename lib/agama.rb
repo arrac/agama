@@ -4,7 +4,6 @@ require 'agama/traverser'
 require 'agama/keyify'
 require 'agama/config'
 require 'agama/loader'
-require 'json'
 
 
 =begin rdoc

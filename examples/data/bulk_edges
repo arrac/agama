@@ -1,36 +1,36 @@
-a	b	I	1
-a	k	N	4
-b	a	O	1
-b	c	I	5
-b	e	O	7
-b	i	O	11
-b	j	N	3
-b	k	I	6
-c	b	O	5
-c	d	N	3
-d	c	N	3
-d	e	O	9
-e	b	I	7
-e	d	I	9
-e	f	I	8
-e	g	N	8
-e	i	N	6
-f	e	O	8
-f	g	I	6
-g	e	N	8
-g	f	O	6
-g	h	N	5
-g	j	I	3
-h	g	N	5
-h	i	I	2
-i	b	I	11
-i	e	N	6
-i	h	O	2
-i	j	O	2
-j	b	N	3
-j	g	O	3
-j	i	I	2
-j	k	O	1
-k	a	N	4
-k	b	O	6
-k	j	I	1
+circle	c	dotted	square	b	O	5
+circle	c	solid	square	d	N	3
+circle	e	dotted	square	b	I	7
+circle	e	dotted	square	d	I	9
+circle	e	dotted	square	f	I	8
+circle	e	solid	circle	g	N	8
+circle	e	solid	triangle	i	N	6
+circle	g	dotted	circle	j	I	3
+circle	g	dotted	square	f	O	6
+circle	g	solid	circle	e	N	8
+circle	g	solid	triangle	h	N	5
+circle	j	dotted	circle	g	O	3
+circle	j	dotted	circle	k	O	1
+circle	j	dotted	triangle	i	I	2
+circle	j	solid	square	b	N	3
+circle	k	dotted	circle	j	I	1
+circle	k	dotted	square	b	O	6
+circle	k	solid	triangle	a	N	4
+square	b	dotted	circle	c	I	5
+square	b	dotted	circle	e	O	7
+square	b	dotted	circle	k	I	6
+square	b	dotted	triangle	a	O	1
+square	b	dotted	triangle	i	O	11
+square	b	solid	circle	j	N	3
+square	d	dotted	circle	e	O	9
+square	d	solid	circle	c	N	3
+square	f	dotted	circle	e	O	8
+square	f	dotted	circle	g	I	6
+triangle	a	dotted	square	b	I	1
+triangle	a	solid	circle	k	N	4
+triangle	h	dotted	triangle	i	I	2
+triangle	h	solid	circle	g	N	5
+triangle	i	dotted	circle	j	O	2
+triangle	i	dotted	square	b	I	11
+triangle	i	dotted	triangle	h	O	2
+triangle	i	solid	circle	e	N	6

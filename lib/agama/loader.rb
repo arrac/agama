@@ -12,7 +12,13 @@ module Agama
 
     def close
       @meta.each do |k, v|
-        @db.m_put(k, v.to_s)
+        if (k[0] == "e"[0])
+          v[:count] /= 2
+          @db.m_put(k, Marshal.dump(v))
+        else
+          v /= 2 if (k == "m")
+          @db.m_put(k, v.to_s)
+        end
       end
       
       @db.close
@@ -28,7 +34,7 @@ module Agama
           node[:type] = type
           
           key = Keyify.node(node)
-          value = JSON.generate(Keyify.clean_node(node)) #remove key items from value
+          value = Marshal.dump(Keyify.clean_node(node)) #remove key items from value
           
           #Update meta values
           @meta["n"] = @db.m_get("n") || "0" unless @meta["n"]
@@ -59,22 +65,26 @@ module Agama
             rev = true 
           end
           
-          if ["I", "O"].include? edge[:direction]
-            edge[:directed] = true
-          else
-            edge[:directed] = false            
-          end
+          edge[:directed] = ["I", "O"].include? edge[:direction]
+
           edge.delete(:direction)
           
           key, rev_key  = Keyify.edge(edge)
-          value         = JSON.generate(Keyify.clean_edge(edge)) #remove key items from value
+          value         = Marshal.dump(Keyify.clean_edge(edge)) #remove key items from value
 
           #Update meta values
           @meta["m"] = @db.m_get("m") || "0" unless @meta["m"]
           @meta["m"] = @meta["m"].to_i + 1
 
-          @meta["edge#{type}"] = @db.m_get("edge#{type}") || "0" unless @meta["edge#{type}"]
-          @meta["edge#{type}"] = @meta["edge#{type}"].to_i + 1
+          unless @meta["edge#{type}"]
+            v = @db.m_get("edge#{type}")
+            if (v)  
+              @meta["edge#{type}"] = Marshal.load(v)
+            else
+              @meta["edge#{type}"] = {:directed => edge[:directed], :count => 0}
+            end
+          end
+          @meta["edge#{type}"][:count] = @meta["edge#{type}"][:count].to_i + 1
 
 
           if rev

@@ -1,12 +1,11 @@
-a	1
-b	6
-c	3
-d	2
-e	4
-f	7
-g	2
-h	6
-i	8
-j	3
-k	5
-திருவள்ளுவர்	3
+triangle	a	1
+square	b	6
+circle	c	3
+square	d	2
+circle	e	4
+square	f	7
+circle	g	2
+triangle	h	6
+triangle	i	8
+circle	j	3
+circle	k	5

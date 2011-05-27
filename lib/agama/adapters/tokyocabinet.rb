@@ -6,12 +6,8 @@ module Agama
     class TC
    
       def initialize(params = {})
-        @e_lmemb  = params[:lmemb]  || 128
-        @e_nmemb  = params[:nmemb]  || 256
-        @e_bnum   = params[:bnum]   || 32749
-        @e_apow   = params[:apow]   || 8
-        @e_fpow   = params[:fpow]   || 10
-        @e_opts   = params[:opts]   || 0
+        @etune  = params[:etune]  || nil
+        @ecache = params[:ecache] || nil
       end
           
       def open (path)
@@ -30,7 +26,10 @@ module Agama
         end
         
         @edges = BDB::new       
-        @edges.tune(@e_lmemb, @e_nmemb, @e_bnum, @e_apow, @e_fpow, @e_opts)       
+        
+        @edges.tune(@etune[0], @etune[1], @etune[2], @etune[3], @etune[4], @etune[5]) if @etune      
+        @edges.setcache(@ecache[0], @ecache[1]) if @ecache
+        
         # open the edges database
         if !@edges.open(path + "/edges.tcb", BDB::OWRITER | BDB::OCREAT)
           ecode = @edges.ecode

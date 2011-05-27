@@ -1,18 +1,18 @@
-b	a	O	1
-c	b	O	5
-c	d	N	3
-a	k	N	4
-k	b	O	6
-j	k	O	1
-j	b	N	3
-i	j	O	2
-j	g	O	3
-i	h	O	2
-h	g	N	5
-g	f	O	6
-f	e	O	8
-e	g	N	8
-i	e	N	6
-d	e	O	9
-b	e	O	7
-b	i	O	11
+dotted	square	b	triangle	a	O	1
+dotted	circle	c	square	b	O	5
+dotted	circle	k	square	b	O	6
+dotted	circle	j	circle	k	O	1
+dotted	triangle	i	circle	j	O	2
+dotted	circle	j	circle	g	O	3
+dotted	triangle	i	triangle	h	O	2
+dotted	circle	g	square	f	O	6
+dotted	square	f	circle	e	O	8
+dotted	square	d	circle	e	O	9
+dotted	square	b	circle	e	O	7
+dotted	square	b	triangle	i	O	11
+solid	circle	c	square	d	N	3
+solid	triangle	a	circle	k	N	4
+solid	circle	e	circle	g	N	8
+solid	triangle	i	circle	e	N	6
+solid	circle	j	square	b	N	3
+solid	triangle	h	circle	g	N	5
