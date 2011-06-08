@@ -41,6 +41,7 @@ Rcov::RcovTask.new do |test|
   test.rcov_opts << '--exclude "gems/*"'
 end
 
+
 task :default => :test
 
 require 'rake/rdoctask'
